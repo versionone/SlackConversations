@@ -1,0 +1,8 @@
+bin/
+obj/
+_ReSharper.*/
+*.suo
+deploy/
+*.publish.xml
+*.user
+user.config

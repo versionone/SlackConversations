@@ -1,0 +1,27 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SlackConversations", "SlackConversations\SlackConversations.csproj", "{CFD6D8EE-EBE4-4AA8-9A91-F85B1ACD1AFB}"
+	ProjectSection(ProjectDependencies) = postProject
+		{0F0FE568-B02E-4C1C-AC12-7EC404072CDA} = {0F0FE568-B02E-4C1C-AC12-7EC404072CDA}
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CFD6D8EE-EBE4-4AA8-9A91-F85B1ACD1AFB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CFD6D8EE-EBE4-4AA8-9A91-F85B1ACD1AFB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CFD6D8EE-EBE4-4AA8-9A91-F85B1ACD1AFB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CFD6D8EE-EBE4-4AA8-9A91-F85B1ACD1AFB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0F0FE568-B02E-4C1C-AC12-7EC404072CDA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0F0FE568-B02E-4C1C-AC12-7EC404072CDA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0F0FE568-B02E-4C1C-AC12-7EC404072CDA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0F0FE568-B02E-4C1C-AC12-7EC404072CDA}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
