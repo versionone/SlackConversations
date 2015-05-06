@@ -28,14 +28,11 @@
 	<h1>Send a message to Slack</h1>
 	<div>
 		<form action="<%= Url.Action("Changed", "Expression") %>" method="POST">
+			<input type="hidden" name="IsNewlyCreated" value="True" />
+
 			<label>
 				Author
 				<input type="text" name="AuthorName" value="Dan Lash" />
-			</label>
-
-			<label>
-				Is Newly Created
-				<input type="text" name="IsNewlyCreated" value="True" />
 			</label>
 
 			<label>
