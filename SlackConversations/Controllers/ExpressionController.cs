@@ -1,4 +1,8 @@
-﻿using System.Web.Mvc;
+﻿using System.Collections.Generic;
+using System.Net;
+using System.Text;
+using System.Web.Mvc;
+using System.Web.Script.Serialization;
 using SlackConversations.Models;
 using SlackConversations.Support;
 
@@ -15,7 +19,8 @@ namespace SlackConversations.Controllers
 			get { return _config = _config ?? new Configuration(); }
 		}
 
-		public ExpressionFormatter Formatter {
+		public ExpressionFormatter Formatter
+		{
 			get { return _formatter = _formatter ?? new ExpressionFormatter(Config); }
 		}
 
@@ -24,10 +29,8 @@ namespace SlackConversations.Controllers
 		{
 			if (expression.IsNewlyCreated)
 			{
-/*
-				var client = new HipChat.HipChatClient(Config.HipChatApiToken, Config.HipChatRoomId);
-				client.SendMessage(Formatter.Format(expression), expression.AuthorName, Config.Notify, Config.BackgroundColor);
-*/
+				var client = new SlackClient(Config);
+				client.PostMessage(Formatter.FormatSlackMessagePayload(expression));
 			}
 
 			return new EmptyResult();
@@ -37,6 +40,32 @@ namespace SlackConversations.Controllers
 		public ActionResult Test()
 		{
 			return View();
+		}
+	}
+
+	public class SlackClient
+	{
+		private readonly string _webhookUrl;
+		private readonly string _channel;
+
+		public SlackClient(Configuration config)
+		{
+			_webhookUrl = config.SlackIncomingWebhookUrl;
+			_channel = config.SlackChannel;
+		}
+
+		public void PostMessage(IDictionary<string, object> payload)
+		{
+			if (!_channel.IsBlank())
+				payload["channel"] = _channel;
+
+			var json = new JavaScriptSerializer().Serialize(payload);
+
+			using (var client = new WebClient { Encoding = Encoding.UTF8 })
+			{
+				client.Headers.Add("Content-Type", "application/json");
+				client.UploadString(_webhookUrl, "POST", json);
+			}
 		}
 	}
 }

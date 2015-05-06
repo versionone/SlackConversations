@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -40,6 +41,54 @@ namespace SlackConversations.Support
 		{
 			var text = string.Format(mentioned.Number.IsBlank() ? "{0}" : "{0} ({1})", HttpUtility.HtmlEncode(mentioned.Name), mentioned.Number);
 			return mentioned.Id.IsBlank() ? text : string.Format("<a href='{2}/assetdetail.v1?oid={0}'>{1}</a>", mentioned.Id, text, HttpUtility.HtmlAttributeEncode(_config.V1BaseUrl));
+		}
+
+		public IDictionary<string, object> FormatSlackMessagePayload(Expression expression)
+		{
+			IDictionary<string, object> body = new Dictionary<string, object>
+			{
+				{ "fallback", expression.Content },
+				{ "author_name", expression.AuthorName },
+				{ "author_link", AssetDetailUrl(expression.AuthorId) },
+				{ "text", SlackEncode(expression.Content) },
+				{ "color", "#7d2248" }
+			};
+
+			var payload = new Dictionary<string, object>
+			{
+				{ "text", "<" + AssetDetailUrl(expression.Id) + "|View Conversation>" },
+				{ "attachments", new[] { body } }
+			};
+
+			if (expression.MentionedAssets != null)
+				body["pretext"] = "Mentions: " + string.Join(", ", expression
+					.MentionedAssets
+					.Select(SlackFormatMentionedAsset));
+
+			return payload;
+		}
+
+		private string SlackFormatMentionedAsset(MentionedAsset mention)
+		{
+			return "<" + AssetDetailUrl(mention.Id) + "|" + string.Format(mention.Number.IsBlank() ? "{0}" : "{0} ({1})", SlackEncode(mention.Name), mention.Number) + ">";
+		}
+
+		private string AssetTypeIcon(string type)
+		{
+			return _config.V1BaseUrl + "/css/images/icons/" + type + "-Icon.gif";
+		}
+
+		private string AssetDetailUrl(string id)
+		{
+			return _config.V1BaseUrl + "/assetdetail.v1?oid=" + id;
+		}
+
+		private string SlackEncode(string message)
+		{
+			return message
+				.Replace("&", "&amp;")
+				.Replace("<", "&lt;")
+				.Replace(">", "&gt;");
 		}
 	}
 }
