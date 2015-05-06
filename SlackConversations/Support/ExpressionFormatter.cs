@@ -56,7 +56,7 @@ namespace SlackConversations.Support
 
 			var payload = new Dictionary<string, object>
 			{
-				{ "text", "<" + AssetDetailUrl(expression.Id) + "|View Conversation>" },
+				{ "text", "<" + _config.V1BaseUrl + "/conversations.v1/show?id=" + expression.Id + "|View Conversation>" },
 				{ "attachments", new[] { body } }
 			};
 
