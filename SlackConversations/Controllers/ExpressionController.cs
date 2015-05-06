@@ -4,6 +4,7 @@ using SlackConversations.Support;
 
 namespace SlackConversations.Controllers
 {
+	[ValidateInput(false)]
 	public class ExpressionController : Controller
 	{
 		private Configuration _config;
